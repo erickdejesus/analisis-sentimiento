@@ -16,6 +16,7 @@ EVENT_ID_NO=[]
 PALABRA=[]
 #EVENT_ID_NO=a['EVENT_ID_NO']
 band=0
+<<<<<<< HEAD
 salida=[]
 for i in a:
     for k in a['EVENT_ID_NO']:
@@ -29,3 +30,11 @@ for i in a:
                 pal+=[k]
                 sal+=[sa]
                 
+=======
+
+def f(row):
+    return row["MENSAJE"].split(' ')
+a["MENSAJE_SPL"] = a.apply(f, axis=1)
+salida=a[['EVENT_ID_NO','MENSAJE_SPL']]
+
+>>>>>>> origin/master
