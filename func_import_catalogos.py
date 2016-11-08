@@ -41,8 +41,8 @@ def dict_tabdelim_NnameColum(nfile):
             valor+=[interm[1].replace('\n','').replace('\r','')]
                     
     dict_salida={
-                         'palabra':pd.Series(palabra),
-                         'valor':pd.Series(valor)
+                 'palabra':pd.Series(palabra),
+                 'valor':pd.Series(valor)
                          }
     df_salida=pd.DataFrame(dict_salida)   
     return(df_salida)  
