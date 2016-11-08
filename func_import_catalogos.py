@@ -37,7 +37,7 @@ def dict_tabdelim_NnameColum(nfile):
     for i in f:
         if Contarexlucion(i) == 0:
             interm=i.split('\t')
-            palabra+=[interm[0].replace('\n','').replace('\r','')]
+            palabra+=[interm[0].strip().replace('\n','').replace('\r','').upper()]
             valor+=[interm[1].replace('\n','').replace('\r','')]
                     
     dict_salida={

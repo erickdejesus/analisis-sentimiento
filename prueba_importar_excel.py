@@ -14,27 +14,34 @@ a=a[['EVENT_ID_NO','MENSAJE']]
 
 EVENT_ID_NO=[]
 PALABRA=[]
-#EVENT_ID_NO=a['EVENT_ID_NO']
+
 band=0
-<<<<<<< HEAD
+
 salida=[]
-for i in a:
-    for k in a['EVENT_ID_NO']:
-#        pal+=[k]
-        for j in a['MENSAJE']:
-#            pal+=[k]
-            x+=[j.split(' ')]
-#            salida+=[pal,x]
-            sal=[]
-            for sa in x:
-                pal+=[k]
-                sal+=[sa]
-                
-=======
 
 def f(row):
     return row["MENSAJE"].split(' ')
 a["MENSAJE_SPL"] = a.apply(f, axis=1)
-salida=a[['EVENT_ID_NO','MENSAJE_SPL']]
+salida1=a[['EVENT_ID_NO','MENSAJE_SPL']]
 
->>>>>>> origin/master
+EVENT_ID_NO=[]
+PALABRA_ORIGINAL=[]
+PALABRA_LIMPIA=[]
+POSICION=[]
+index=salida1.index
+long_mensaje=0
+for i in index:
+    long_mensaje=len(salida1['MENSAJE_SPL'][i])
+    for j in range(long_mensaje):
+        EVENT_ID_NO+=[salida1['EVENT_ID_NO'][i]]
+        PALABRA_ORIGINAL+=[salida1['MENSAJE_SPL'][i][j]]
+        PALABRA_LIMPIA+=[salida1['MENSAJE_SPL'][i][j].strip().replace('!','').replace('¡','').replace(',','').replace('.','').replace('¿','').replace('?','').upper()]
+        POSICION+=[j]
+
+dict_salida1={
+            'EVENT_ID_NO':pd.Series(EVENT_ID_NO),
+            'PALABRA_ORIGINAL':pd.Series(PALABRA_ORIGINAL),
+            'PALABRA_LIMPIA':pd.Series(PALABRA_LIMPIA),
+            'POSICION':pd.Series(POSICION)
+            }
+df_salida1=pd.DataFrame(dict_salida1)
