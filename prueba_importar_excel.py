@@ -19,7 +19,13 @@ band=0
 salida=[]
 for i in a:
     for k in a['EVENT_ID_NO']:
-        pal+=[k]
-    for j in a['MENSAJE']:
-        x+=j.split(' ')
-#    salida+=[k,x]
+#        pal+=[k]
+        for j in a['MENSAJE']:
+#            pal+=[k]
+            x+=[j.split(' ')]
+#            salida+=[pal,x]
+            sal=[]
+            for sa in x:
+                pal+=[k]
+                sal+=[sa]
+                
