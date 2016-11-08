@@ -16,10 +16,23 @@ EVENT_ID_NO=[]
 PALABRA=[]
 #EVENT_ID_NO=a['EVENT_ID_NO']
 band=0
-salida=[]
-for i in a:
-    for k in a['EVENT_ID_NO']:
-        pal+=[k]
-    for j in a['MENSAJE']:
-        x+=j.split(' ')
+
+def f(row):
+    return row["MENSAJE"].split(' ')
+a["MENSAJE_SPL"] = a.apply(f, axis=1)
+a=a[['EVENT_ID_NO','MENSAJE_SPL']]
+
+#for i in a:
+#    for j in a['MENSAJE']:
+#        x+=a['MENSAJE'].split(' ')
+
+  #salida+=[tabla['MENSAJE'][i],tabla['MENSAJE'][i].split]  
+   
+#  print(tabla[1]['MENSAJE'])
+ # for j in a['MENSAJE']:
+     # print(i)
+#    for k in a['EVENT_ID_NO']:
+#        pal+=[k]
+ #   for j in a['MENSAJE']:
+ #       x+=j.split(' ')
 #    salida+=[k,x]
