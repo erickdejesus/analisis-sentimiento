@@ -49,7 +49,13 @@ def dict_tabdelim_NnameColum(nfile):
         
 def Import_Catalogs():
     verf_archs_ruta=[]
-    verf_archs_ruta=[dir_sal_sentmnt+sentmn_general,dir_us_chucker+chncker_intens_file,dir_us_chucker+chncker_negation_file,dir_base,dir_sal_sentmnt,dir_us_chucker]
+    verf_archs_ruta=[dir_sal_sentmnt+sentmn_general,
+                     dir_us_chucker+chncker_intens_file,
+                     dir_us_chucker+chncker_negation_file,
+                     dir_us_chucker+chncker_neg_break,
+                     dir_base,
+                     dir_sal_sentmnt,
+                     dir_us_chucker]
     cnt_errores=0
     for k in verf_archs_ruta:
         if CorroboraExistencia(k) == False:
@@ -58,7 +64,9 @@ def Import_Catalogs():
         df_sentimiento=dict_tabdelim_NnameColum(dir_sal_sentmnt+sentmn_general)
         df_intensifiers=dict_tabdelim_NnameColum(dir_us_chucker+chncker_intens_file)
         df_negation=dict_tabdelim_NnameColum(dir_us_chucker+chncker_negation_file)
-        return(df_sentimiento,df_intensifiers,df_negation)
+        df_negationbreaks = ['para','y','solamente','sólo','.',',','¡']
+        df_negationbreaks = pd.Series(df_negationbreaks)
+        return(df_sentimiento,df_intensifiers,df_negation,df_negationbreaks)
     else:
         return()
 
