@@ -36,16 +36,16 @@ def columna_breaks(DFrame,S_negation_breaks):
     return(DFrame)
     
 def esta_n_breaks(PALABRA_ORIGINAL,S_negation_breaks):
-    if PALABRA_ORIGINAL == 'y':
-        PALABRA_ORIGINAL=PALABRA_ORIGINAL.replace('y',' y ')
-    if PALABRA_ORIGINAL == 'o' or  PALABRA_ORIGINAL == 'ó':
-        PALABRA_ORIGINAL=PALABRA_ORIGINAL.replace('o',' o ').replace('ó',' o ')
     cnt=0
-    for j in PALABRA_ORIGINAL:
-#        print(j)
-        if j in list(S_negation_breaks):
-            cnt=cnt+1
-#            print(cnt)
+    if PALABRA_ORIGINAL in list(S_negation_breaks):
+        cnt=cnt+1
+    else:
+        for j in PALABRA_ORIGINAL:
+            if j in ['y','o','ó']:
+                continue
+            else:
+                if j in list(S_negation_breaks):
+                    cnt=cnt+1
     if cnt > 0:
         return(1)
     else:
