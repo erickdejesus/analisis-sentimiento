@@ -9,7 +9,7 @@ import func_import_catalogos as catalogs
 import importar_excel as impex
 import funciones_varias as enc
 
-df_sentimiento,df_intensificadores,df_negadores,df_negation_breaks=catalogs.Import_Catalogs()
+df_sentimiento,df_intensificadores,df_negadores,S_negation_breaks=catalogs.Import_Catalogs()
 df_negocio,df_layout1=impex.importar_excel_negocio()
 
 Layout_Sentimiento=pd.merge(df_layout1,df_sentimiento,left_on='PALABRA_LIMPIA',right_on='palabra',how='left')
@@ -32,3 +32,5 @@ Layout_Negadores.rename(columns={'valor':'Negadores'}, inplace=True)
 Merg1=pd.merge(Layout_Sentimiento,Layout_Intensificador,on=['EVENT_ID_NO','PALABRA_LIMPIA','PALABRA_ORIGINAL','POSICION'],how='left')
 Merg2=pd.merge(Merg1,Layout_Negadores,on=['EVENT_ID_NO','PALABRA_LIMPIA','PALABRA_ORIGINAL','POSICION'],how='left')
 Merg3=pd.merge(Merg2,Layout_ADM,on=['EVENT_ID_NO','PALABRA_LIMPIA','PALABRA_ORIGINAL','POSICION'],how='left')
+Merg4=enc.columna_breaks(Merg3,S_negation_breaks)
+

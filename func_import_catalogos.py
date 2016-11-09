@@ -64,9 +64,9 @@ def Import_Catalogs():
         df_sentimiento=dict_tabdelim_NnameColum(dir_sal_sentmnt+sentmn_general)
         df_intensifiers=dict_tabdelim_NnameColum(dir_us_chucker+chncker_intens_file)
         df_negation=dict_tabdelim_NnameColum(dir_us_chucker+chncker_negation_file)
-        df_negationbreaks = ['para','y','solamente','sólo','.',',','¡']
-        df_negationbreaks = pd.Series(df_negationbreaks)
-        return(df_sentimiento,df_intensifiers,df_negation,df_negationbreaks)
+        S_negationbreaks = [' para ',' y ',' solamente ',' sólo ','.',',','¡',' pero ',' o']
+        S_negationbreaks = pd.Series(S_negationbreaks)
+        return(df_sentimiento,df_intensifiers,df_negation,S_negationbreaks)
     else:
         return()
 
