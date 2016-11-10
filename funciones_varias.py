@@ -15,13 +15,13 @@ def f(row):
         
 def encuentra_admiracion(tabla,origen):          
     tabla["ADM"] = tabla.apply(f, axis=1)
-    aux = tabla[tabla['ADM'] ==2]
-    index=aux.index
-    for i in index:
-       aux1 = tabla[(tabla['EVENT_ID_NO']==aux['EVENT_ID_NO'][i])&(tabla['POSICION']<aux['POSICION'][i])]
-       index1=aux1.index
-       for j in index1:
-         tabla.loc[(tabla['EVENT_ID_NO']==aux1['EVENT_ID_NO'][j])&(tabla['POSICION']==aux1['POSICION'][j]) , 'ADM'] = 2 
+#    aux = tabla[tabla['ADM'] ==2]
+#    index=aux.index
+#    for i in index:
+#       aux1 = tabla[(tabla['EVENT_ID_NO']==aux['EVENT_ID_NO'][i])&(tabla['POSICION']<aux['POSICION'][i])]
+#       index1=aux1.index
+#       for j in index1:
+#         tabla.loc[(tabla['EVENT_ID_NO']==aux1['EVENT_ID_NO'][j])&(tabla['POSICION']==aux1['POSICION'][j]) , 'ADM'] = 2 
     return (tabla)
 
 #==============================================================================
@@ -63,3 +63,46 @@ def Salida_n_Excel(DFrame_list,Names_DFrame_list):
         i.to_excel(writer,sheet_name=Names_DFrame_list[band],index=False)
         band=band+1
     writer.save()
+
+    
+def find_sentiment_phrase(tabla, sent):
+    index=tabla.index
+    sent_ind= sent.index
+    tabla['MENSAJE_C'] = tabla.apply(upp, axis=1)
+    EVENT=[]
+    PALABRA=[]
+    SENT=[]
+    pib=[]
+    count =0
+    try:
+        for i in index:
+            ##########Se crean los valores de la columna nueva
+            for j in sent_ind:
+#            print(encuentra_palabra(tabla['MENSAJE_C'][i],sent['palabra'][j]))
+                count+=1
+                if(encuentra_palabra(tabla['MENSAJE_C'][i],sent['palabra'][j])>0):
+                    EVENT+=[tabla['EVENT_ID_NO'][i]]
+                    PALABRA+=[sent['palabra'][j]]
+                    SENT+=[sent['valor'][j]]
+#                    pib+=[tabla['EVENT_ID_NO'][i],sent['palabra'][j],sent['valor'][j]]
+#                   print('1',pib)
+    except Exception as inst:
+        print('ocurrio un error',inst,count)
+        print('event_i',EVENT)
+        print('palabra',PALABRA)
+        print('sentimiento',SENT)
+        pib = {'EVENT_ID_NO':EVENT,'PALABRA':PALABRA,'SENTIMIENTO': SENT}
+#    print(pib)
+    tab = pd.Series(pib)
+    return tab
+    
+def upp(row):
+    return row['MENSAJE'].upper()
+
+def encuentra_palabra(post,palabra):
+    try:
+        if(post.index(palabra)>0):
+            return 1
+    except:
+        return -1
+    
