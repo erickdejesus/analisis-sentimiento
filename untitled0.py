@@ -34,3 +34,6 @@ Merg2=pd.merge(Merg1,Layout_Negadores,on=['EVENT_ID_NO','PALABRA_LIMPIA','PALABR
 #Merg3=pd.merge(Merg2,Layout_ADM,on=['EVENT_ID_NO','PALABRA_LIMPIA','PALABRA_ORIGINAL','POSICION'],how='left')
 Merg4=enc.columna_breaks(Merg2,S_negation_breaks)
 
+DFrame_list=[df_negocio,Merg4]
+Names_DFrame_list=['df_negocio','Merg4']
+enc.Salida_n_Excel(DFrame_list,Names_DFrame_list)

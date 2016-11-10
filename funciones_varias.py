@@ -4,6 +4,7 @@ Created on Tue Nov  8 13:12:16 2016
 
 @author: edejc
 """
+import pandas as pd
 
 def f(row):
     try:
@@ -50,3 +51,15 @@ def esta_n_breaks(PALABRA_ORIGINAL,S_negation_breaks):
         return(1)
     else:
         return(0)
+        
+        
+#==============================================================================
+#         funciones para pasar una lista de Dataframes en un excel
+#==============================================================================
+def Salida_n_Excel(DFrame_list,Names_DFrame_list):
+    band=0
+    writer=pd.ExcelWriter('Salida_Ananlisis_sentimiento.xlsx',engine='xlsxwriter')
+    for i in DFrame_list:
+        i.to_excel(writer,sheet_name=Names_DFrame_list[band],index=False)
+        band=band+1
+    writer.save()
