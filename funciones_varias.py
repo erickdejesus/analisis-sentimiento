@@ -11,17 +11,17 @@ def f(row):
       if(row["PALABRA_ORIGINAL"].index('!')>0):
          return 2
     except:
-        return 1
+        return 0
         
 def encuentra_admiracion(tabla,origen):          
     tabla["ADM"] = tabla.apply(f, axis=1)
-    aux = tabla[tabla['ADM'] ==2]
-    index=aux.index
-    for i in index:
-       aux1 = tabla[(tabla['EVENT_ID_NO']==aux['EVENT_ID_NO'][i])&(tabla['POSICION']<aux['POSICION'][i])]
-       index1=aux1.index
-       for j in index1:
-         tabla.loc[(tabla['EVENT_ID_NO']==aux1['EVENT_ID_NO'][j])&(tabla['POSICION']==aux1['POSICION'][j]) , 'ADM'] = 2 
+#    aux = tabla[tabla['ADM'] ==2]
+#    index=aux.index
+#    for i in index:
+#       aux1 = tabla[(tabla['EVENT_ID_NO']==aux['EVENT_ID_NO'][i])&(tabla['POSICION']<aux['POSICION'][i])]
+#       index1=aux1.index
+#       for j in index1:
+#         tabla.loc[(tabla['EVENT_ID_NO']==aux1['EVENT_ID_NO'][j])&(tabla['POSICION']==aux1['POSICION'][j]) , 'ADM'] = 2 
     return (tabla)
 
 #==============================================================================
@@ -61,5 +61,9 @@ def Salida_n_Excel(DFrame_list,Names_DFrame_list):
     writer=pd.ExcelWriter('Salida_Ananlisis_sentimiento.xlsx',engine='xlsxwriter')
     for i in DFrame_list:
         i.to_excel(writer,sheet_name=Names_DFrame_list[band],index=False)
+        workbook  = writer.book
+        worksheet = writer.sheets[Names_DFrame_list[band]]
+        format1 = workbook.add_format({'num_format': '#,##0.00'})
+        worksheet.set_column('E:I', 18, format1)
         band=band+1
     writer.save()
