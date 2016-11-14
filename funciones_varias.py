@@ -67,3 +67,47 @@ def Salida_n_Excel(DFrame_list,Names_DFrame_list):
         worksheet.set_column('E:I', 18, format1)
         band=band+1
     writer.save()
+
+    
+def find_sentiment_phrase(tabla, sent):
+    index=tabla.index
+    sent_ind= sent.index
+    tabla['MENSAJE_C'] = tabla.apply(upp, axis=1)
+    EVENT=[]
+    PALABRA=[]
+    SENT=[]
+    pib=[]
+    count =0
+    try:
+        for i in index:
+            ##########Se crean los valores de la columna nueva
+            for j in sent_ind:
+#            print(encuentra_palabra(tabla['MENSAJE_C'][i],sent['palabra'][j]))
+                count+=1
+                if(encuentra_palabra(tabla['MENSAJE_C'][i],sent['palabra'][j])>0):
+                    EVENT+=[tabla['EVENT_ID_NO'][i]]
+                    PALABRA+=[sent['palabra'][j]]
+                    SENT+=[sent['valor'][j]]
+#                    pib+=[tabla['EVENT_ID_NO'][i],sent['palabra'][j],sent['valor'][j]]
+#                   print('1',pib)
+    except Exception as inst:
+        print('ocurrio un error',inst,count)
+        print('event_i',EVENT)
+        print('palabra',PALABRA)
+        print('sentimiento',SENT)
+        pib = {'EVENT_ID_NO':EVENT,'PALABRA':PALABRA,'SENTIMIENTO': SENT}
+#    print(pib)
+    tab = pd.Series(pib)
+    return tab
+    
+def upp(row):
+    return row['MENSAJE'].upper()
+
+def encuentra_palabra(post,palabra):
+    try:
+        if(post.index(palabra)>0):
+            return 1
+    except:
+        return -1
+        
+    

@@ -9,6 +9,7 @@ import numpy as np
 import func_import_catalogos as catalogs
 import importar_excel as impex
 import funciones_varias as enc
+import consultas as consulta
 
 df_sentimiento,df_intensificadores,df_negadores,S_negation_breaks=catalogs.Import_Catalogs()
 df_negocio,df_layout1=impex.importar_excel_negocio()
@@ -35,6 +36,7 @@ Merg2=pd.merge(Merg1,Layout_Negadores,on=['EVENT_ID_NO','PALABRA_LIMPIA','PALABR
 Merg3=pd.merge(Merg2,Layout_ADM,on=['EVENT_ID_NO','PALABRA_LIMPIA','PALABRA_ORIGINAL','POSICION'],how='left')
 Merg4=enc.columna_breaks(Merg3,S_negation_breaks)
 
+<<<<<<< HEAD
 #==============================================================================
 #                   Si se desea pasar a excel
 #==============================================================================
@@ -44,3 +46,8 @@ enc.Salida_n_Excel(DFrame_list,Names_DFrame_list)
 
 
 
+=======
+clasificacion,df_negocio = consulta.post_un_sentimiento(Merg4,df_negocio)
+
+df_negocio=df_negocio.fillna(0)
+>>>>>>> origin/master
