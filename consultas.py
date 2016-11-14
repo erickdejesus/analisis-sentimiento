@@ -8,13 +8,13 @@ import pandas as pd
 
 def post_un_sentimiento(tabla,total):
     aux = tabla[tabla['SENTIMIENTO_PALABRA']!=0]
-    aux1 = aux.groupby('EVENT_ID_NO')['SENTIMIENTO_PALABRA'].count()
-#    print(aux1)
-#    for k in aux1:
-        
-#    ase = pd.Series(aux1.values)
-#    aux1=aux.merge(total, aux, on='EVENT_ID_NO', how='left')
-#    aux[aux['SENTIMIENTO_PALABRA']==1]
+    aux1= aux.groupby('EVENT_ID_NO')['SENTIMIENTO_PALABRA'].count()
+    index = list(aux1.index)
+    value_index=list(aux1)
+    data = {'EVENT_ID_NO' : index, 
+    'cont_sent_pal' : value_index}
+    df = pd.DataFrame(data)
+    total =pd.merge(total, df, on='EVENT_ID_NO', how='left')
     
-    return aux1
+    return df,total
     
