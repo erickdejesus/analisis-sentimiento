@@ -34,20 +34,15 @@ Layout_Negadores.rename(columns={'valor':'Negadores'}, inplace=True)
 Merg1=pd.merge(Layout_Sentimiento,Layout_Intensificador,on=['EVENT_ID_NO','PALABRA_LIMPIA','PALABRA_ORIGINAL','POSICION'],how='left')
 Merg2=pd.merge(Merg1,Layout_Negadores,on=['EVENT_ID_NO','PALABRA_LIMPIA','PALABRA_ORIGINAL','POSICION'],how='left')
 Merg3=pd.merge(Merg2,Layout_ADM,on=['EVENT_ID_NO','PALABRA_LIMPIA','PALABRA_ORIGINAL','POSICION'],how='left')
-Merg4=enc.columna_breaks(Merg3,S_negation_breaks)
+Merg4=enc.columna_breaks(Merg3,S_negation_breaks);Merg4.fillna(0)
 
-<<<<<<< HEAD
+clasificacion,df_negocio = consulta.post_un_sentimiento(Merg4,df_negocio)
+df_negocio=df_negocio.fillna(0)
+
 #==============================================================================
-#                   Si se desea pasar a excel
+#          SALIDA EN FORMATO EXCEL
 #==============================================================================
 DFrame_list=[df_negocio,Merg4]
 Names_DFrame_list=['df_negocio','Merg4']
 enc.Salida_n_Excel(DFrame_list,Names_DFrame_list)
 
-
-
-=======
-clasificacion,df_negocio = consulta.post_un_sentimiento(Merg4,df_negocio)
-
-df_negocio=df_negocio.fillna(0)
->>>>>>> origin/master

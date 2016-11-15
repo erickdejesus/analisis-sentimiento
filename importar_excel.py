@@ -38,3 +38,4 @@ def importar_excel_negocio():
                 }
     df_salida1=pd.DataFrame(dict_salida1)
     return(a,df_salida1)
+    

@@ -5,6 +5,7 @@ Created on Tue Nov  8 13:12:16 2016
 @author: edejc
 """
 import pandas as pd
+import numpy as np
 
 def f(row):
     try:
@@ -60,6 +61,7 @@ def Salida_n_Excel(DFrame_list,Names_DFrame_list):
     band=0
     writer=pd.ExcelWriter('Salida_Ananlisis_sentimiento.xlsx',engine='xlsxwriter')
     for i in DFrame_list:
+        i=cambiar_formato_numero(i.fillna(0))
         i.to_excel(writer,sheet_name=Names_DFrame_list[band],index=False)
         workbook  = writer.book
         worksheet = writer.sheets[Names_DFrame_list[band]]
@@ -110,4 +112,12 @@ def encuentra_palabra(post,palabra):
     except:
         return -1
         
-    
+def cambiar_formato_numero(DFrame):
+    M4_cols=DFrame.columns
+    for j in M4_cols:
+        if j in ['EVENT_ID_NO','PALABRA_LIMPIA','PALABRA_ORIGINAL','MENSAJE','MENSAJE_SPL']:
+            continue
+        else:
+            DFrame[j]=DFrame[j].astype(np.float)
+            DFrame[j]=pd.to_numeric(DFrame[j],errors='ignore')
+    return(DFrame)
