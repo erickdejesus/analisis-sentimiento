@@ -128,6 +128,6 @@ def correr_valor_multiplicador(x1):
         pass
     
 #    Calculo de columna RESULTADO_DESMENUZADO
-
+    
     return(x1)
     
