@@ -6,7 +6,9 @@ Created on Fri Nov 11 11:15:46 2016
 """
 import pandas as pd
 
-def post_un_sentimiento(tabla,total):
+def post_un_sentimiento(Merge4,df_negocio):
+    tabla=Merge4
+    total=df_negocio
     aux = tabla[tabla['SENTIMIENTO_PALABRA']!=0]
     aux1= aux.groupby('EVENT_ID_NO')['SENTIMIENTO_PALABRA'].count()
     index = list(aux1.index)
@@ -15,6 +17,5 @@ def post_un_sentimiento(tabla,total):
     'cont_sent_pal' : value_index}
     df = pd.DataFrame(data)
     total =pd.merge(total, df, on='EVENT_ID_NO', how='left')
-    
     return df,total
     
