@@ -55,6 +55,8 @@ def correr_valor_multiplicador(x1):
     list_ADM=x1['POSICION'][x1['ADM']!=0]
     list_ADM=list(list_ADM)
     
+    rompedores(list_intns,list_romp)
+    
 #     CORRER INTENSIFICADORES
 
     if len(list_intns) > 0 and len(list_romp) > 0:
@@ -131,3 +133,28 @@ def correr_valor_multiplicador(x1):
     
     return(x1)
     
+def rompedores(intens, rompedores):
+    lista=[]
+    lista=intens
+    lista+=rompedores
+    lista=quita_duplicados(lista)
+    lista = ordena_lista(lista)
+    return lista
+    
+def ordena_lista(lis):
+    tam = len(lis)
+    for i in range(1,tam):
+        for j in range(0,tam-i):
+            if(lis[j] > lis[j+1]):
+                k = lis[j+1]
+                lis[j+1] = lis[j]
+                lis[j] = k;
+    return lis
+
+def quita_duplicados(lis):
+    lista_nueva = []
+    for i in lis:
+        if i not in lista_nueva:
+            lista_nueva.append(i)
+
+    return lista_nueva
