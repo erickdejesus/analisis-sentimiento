@@ -114,13 +114,14 @@ def calcula_resultado_valor(x2):
     x2["row_result"]=row_result
 #    print(row_result)
     return(x2)
-    
+
 #==============================================================================
 #         FUNCION PRINCIPAL
 #==============================================================================
 
 def correr_valor_multiplicador(x1):
     x1=enc.cambiar_formato_numero(x1)
+    pos_finT=x1['POSICION'].max()
     list_romp=x1['POSICION'][x1['ROMPEDOR_F']>0]
     list_romp=list(list_romp)
     list_intns=x1['POSICION'][x1['INTENSIFICADOR']!=0]
@@ -174,7 +175,7 @@ def correr_valor_multiplicador(x1):
         else:
 #                hay que trabajar en este caso
              pos_init=0
-             pos_fin=int(i)
+             pos_fin=pos_finT
              x1.iloc[int(pos_init):int(pos_fin),7]=float(x1['ADM'][x1['POSICION'] == pos_fin])
     else:
         pass

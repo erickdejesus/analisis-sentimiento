@@ -62,7 +62,10 @@ def Salida_n_Excel(DFrame_list,Names_DFrame_list):
     band=0
     writer=pd.ExcelWriter('Salida_Ananlisis_sentimiento.xlsx',engine='xlsxwriter')
     for i in DFrame_list:
-        i=cambiar_formato_numero(i.fillna(0))
+        try:
+            i=cambiar_formato_numero(i.fillna(0))
+        except Exception as inst:
+            print('cambiar_formato_numero().'+'\t'+str(inst))
         i.to_excel(writer,sheet_name=Names_DFrame_list[band],index=False)
         workbook  = writer.book
         worksheet = writer.sheets[Names_DFrame_list[band]]
@@ -119,6 +122,9 @@ def cambiar_formato_numero(DFrame):
         if j in ['EVENT_ID_NO','PALABRA_LIMPIA','PALABRA_ORIGINAL','MENSAJE','MENSAJE_SPL']:
             continue
         else:
-            DFrame[j]=DFrame[j].astype(np.float)
-            DFrame[j]=pd.to_numeric(DFrame[j],errors='ignore')
+            try:
+                DFrame[j]=DFrame[j].astype(np.float)
+                DFrame[j]=pd.to_numeric(DFrame[j],errors='ignore')
+            except Exception as inst:
+                print('def cambiar_formato_numero():'+'\t'+str(inst))
     return(DFrame)

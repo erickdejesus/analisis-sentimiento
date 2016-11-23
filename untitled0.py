@@ -9,6 +9,10 @@ import func_import_catalogos as catalogs
 import importar_excel as impex
 import funciones_varias as enc
 import consultas as consulta
+import correr_valores as correr
+import os
+
+os.environ['NLS_LANG'] ='.UTF8'
 
 df_sentimiento,df_intensificadores,df_negadores,S_negation_breaks=catalogs.Import_Catalogs()
 df_negocio,df_layout1=impex.importar_excel_negocio()
@@ -32,19 +36,39 @@ Layout_Negadores.rename(columns={'valor':'Negadores'}, inplace=True)
 
 Merg1=pd.merge(Layout_Sentimiento,Layout_Intensificador,on=['EVENT_ID_NO','PALABRA_LIMPIA','PALABRA_ORIGINAL','POSICION'],how='left')
 Merg2=pd.merge(Merg1,Layout_Negadores,on=['EVENT_ID_NO','PALABRA_LIMPIA','PALABRA_ORIGINAL','POSICION'],how='left')
-Merg3=pd.merge(Merg2,Layout_ADM,on=['EVENT_ID_NO','PALABRA_LIMPIA','PALABRA_ORIGINAL','POSICION'],how='left')
-Merg4=enc.columna_breaks(Merg3,S_negation_breaks);Merg4.fillna(0)
+Merg3=pd.merge(Merg2,Layout_ADM,on=['EVENT_ID_NO','PALABRA_LIMPIA','PALABRA_ORIGINAL','POSICION'],how='left');Merg3=Merg3.fillna(0)
+Merg4=enc.columna_breaks(Merg3,S_negation_breaks);Merg4=Merg4.fillna(0)
 
 clasificacion,df_negocio = consulta.post_un_sentimiento(Merg4,df_negocio)
 df_negocio=df_negocio.fillna(0)
 
-new_index=Merg4.groupby('EVENT_ID_NO').size();new_index=list(new_index.index)
-for i in new_index:
-    m5=
+with open('TStage2.csv','a') as appn:
+    new_index=list(df_negocio['EVENT_ID_NO'][df_negocio['cont_sent_pal']==1])
+    band=0
+    for m in new_index:
+        m5=Merg4[Merg4['EVENT_ID_NO']==m]
+        x2=correr.correr_valor_multiplicador(m5)
+        if band==0:
+            try:
+                x2.to_csv(appn,index=False,enconding='latin_1')
+            except Exception as inst:
+                print(str(m)+': '+str(inst))
+            band=band+1
+        else:
+            try:
+                x2.to_csv(appn,header=False,index=False,enconding='latin_1')
+            except Exception as inst:
+                print(str(m)+': '+str(inst)) 
+            band=band+1
+
+Merg5=pd.read_csv('TStage2.csv',encoding='latin_1')
+Merg5=Merg5.drop_duplicates()
+Merg5=Merg5.reindex()
+            
 #==============================================================================
 #          SALIDA EN FORMATO EXCEL
 #==============================================================================
-DFrame_list=[df_negocio,Merg4]
-Names_DFrame_list=['df_negocio','Merg4']
+DFrame_list=[df_negocio,Merg4,Merg5]
+Names_DFrame_list=['df_negocio','Merg4','Merg5']
 enc.Salida_n_Excel(DFrame_list,Names_DFrame_list)
 
