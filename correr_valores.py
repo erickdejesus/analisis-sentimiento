@@ -65,7 +65,7 @@ def quita_duplicados(lis):
     return lista_nueva
     
 def calcula_resultado_valor(x2):
-    row_result=[]
+    row_result=[]   
     for i2 in x2['POSICION']:
         result_chain=''
         ban0=''
@@ -73,40 +73,40 @@ def calcula_resultado_valor(x2):
         ban2=''
         ban3=''
         result=0
-        if x2['SENTIMIENTO_PALABRA'][i2] != 0:
+        if float(x2['SENTIMIENTO_PALABRA'][x2['POSICION']==i2]) != 0:
             ban0='1'
         else:
             ban0='0'
-        if x2['INTENSIFICADOR'][i2] != 0:
+        if float(x2['INTENSIFICADOR'][x2['POSICION']==i2]) != 0:
             ban1='1'
         else:
             ban1='0'
-        if x2['Negadores'][i2] != 0:
+        if float(x2['Negadores'][x2['POSICION']==i2]) != 0:
             ban2='1'
         else:
             ban2='0'
-        if x2['ADM'][i2] != 0:
+        if float(x2['ADM'][x2['POSICION']==i2]) != 0:
             ban3='1'
         else:
             ban3='0'
         result_chain=ban0+ban1+ban2+ban3
 #        print(result_chain)
         if result_chain == '1000':
-            result=float(x2['SENTIMIENTO_PALABRA'][i2])
+            result=float(x2['SENTIMIENTO_PALABRA'][x2['POSICION']==i2])
         elif result_chain == '1001':
-            result=float(x2['SENTIMIENTO_PALABRA'][i2])*float(x2['ADM'][i2])
+            result=float(x2['SENTIMIENTO_PALABRA'][x2['POSICION']==i2])*float(x2['ADM'][x2['POSICION']==i2])
         elif result_chain == '1010':
-            result=float(x2['SENTIMIENTO_PALABRA'][i2])*float(x2['Negadores'][i2])
+            result=float(x2['SENTIMIENTO_PALABRA'][x2['POSICION']==i2])*float(x2['Negadores'][x2['POSICION']==i2])
         elif result_chain == '1011':
-            result=float(x2['SENTIMIENTO_PALABRA'][i2])*float(x2['Negadores'][i2])*float(x2['ADM'][i2])
+            result=float(x2['SENTIMIENTO_PALABRA'][x2['POSICION']==i2])*float(x2['Negadores'][x2['POSICION']==i2])*float(x2['ADM'][x2['POSICION']==i2])
         elif result_chain == '1100':
-            result=float(x2['SENTIMIENTO_PALABRA'][i2])*float(x2['INTENSIFICADOR'][i2])
+            result=float(x2['SENTIMIENTO_PALABRA'][x2['POSICION']==i2])*float(x2['INTENSIFICADOR'][x2['POSICION']==i2])
         elif result_chain == '1101':
-            result=float(x2['SENTIMIENTO_PALABRA'][i2])*float(x2['INTENSIFICADOR'][i2])*float(x2['ADM'][i2])
+            result=float(x2['SENTIMIENTO_PALABRA'][x2['POSICION']==i2])*float(x2['INTENSIFICADOR'][x2['POSICION']==i2])*float(x2['ADM'][x2['POSICION']==i2])
         elif result_chain == '1110':
-            result=float(x2['SENTIMIENTO_PALABRA'][i2])*float(x2['INTENSIFICADOR'][i2])*float(x2['Negadores'][i2])
+            result=float(x2['SENTIMIENTO_PALABRA'][x2['POSICION']==i2])*float(x2['INTENSIFICADOR'][x2['POSICION']==i2])*float(x2['Negadores'][x2['POSICION']==i2])
         elif result_chain == '1111':
-            result=float(x2['SENTIMIENTO_PALABRA'][i2])*float(x2['INTENSIFICADOR'][i2])*float(x2['Negadores'][i2])*float(x2['ADM'][i2])
+            result=float(x2['SENTIMIENTO_PALABRA'][x2['POSICION']==i2])*float(x2['INTENSIFICADOR'][x2['POSICION']==i2])*float(x2['Negadores'][x2['POSICION']==i2])*float(x2['ADM'][x2['POSICION']==i2])
         else:
             result=0
 #        print(result)
@@ -201,6 +201,6 @@ def correr_valor_multiplicador(x1):
     else: 
         pass
 #    Construccion columna resultado
-    
-    return(x1)
+    x2=calcula_resultado_valor(x1)
+    return(x2)
     

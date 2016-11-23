@@ -5,7 +5,6 @@ Created on Thu Nov  3 18:08:31 2016
 @author: edejc
 """
 import pandas as pd
-import numpy as np
 import func_import_catalogos as catalogs
 import importar_excel as impex
 import funciones_varias as enc
@@ -39,6 +38,9 @@ Merg4=enc.columna_breaks(Merg3,S_negation_breaks);Merg4.fillna(0)
 clasificacion,df_negocio = consulta.post_un_sentimiento(Merg4,df_negocio)
 df_negocio=df_negocio.fillna(0)
 
+new_index=Merg4.groupby('EVENT_ID_NO').size();new_index=list(new_index.index)
+for i in new_index:
+    m5=
 #==============================================================================
 #          SALIDA EN FORMATO EXCEL
 #==============================================================================
