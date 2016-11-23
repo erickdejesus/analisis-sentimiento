@@ -8,13 +8,14 @@ import pandas as pd
 import numpy as np
 
 def f(row):
-    try:
-      if(row["PALABRA_ORIGINAL"].index('!')>0):
-         return 2
-    except:
-        return 0
+    var=0
+    if(row["PALABRA_ORIGINAL"].find('!')>=0):
+         var= 2
+    else:
+        var= 0
+    return var
         
-def encuentra_admiracion(tabla,origen):          
+def encuentra_admiracion(tabla):          
     tabla["ADM"] = tabla.apply(f, axis=1)
 #    aux = tabla[tabla['ADM'] ==2]
 #    index=aux.index

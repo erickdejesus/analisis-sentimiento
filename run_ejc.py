@@ -14,15 +14,15 @@ import frase_sentimiento as fr
 df_sentimiento,df_intensificadores,df_negadores,S_negation_breaks=catalogs.Import_Catalogs()
 df_negocio,df_layout1=impex.importar_excel_negocio()
 
-exit1 = fr.encuentra_modificadores(df_negocio['MENSAJE_SPL'][105],df_negadores,df_sentimiento,S_negation_breaks,df_intensificadores)
+#exit1 = fr.encuentra_modificadores(df_negocio['MENSAJE_SPL'][105],df_negadores,df_sentimiento,S_negation_breaks,df_intensificadores)
 #entrada,negadores,sentimiento, n_breaks, intensificadores
-print (exit1)
-#Layout_Sentimiento=pd.merge(df_layout1,df_sentimiento,left_on='PALABRA_LIMPIA',right_on='palabra',how='left')
+#print (exit1)
+Layout_Sentimiento=pd.merge(df_layout1,df_sentimiento,left_on='PALABRA_LIMPIA',right_on='palabra',how='left')
 
-#salida_pb1 = enc.find_sentiment_phrase(df_negocio,df_sentimiento)
+salida_pb1 = enc.find_sentiment_phrase(df_negocio,df_sentimiento)
 
-##Layout_ADM = enc.encuentra_admiracion(Layout_Sentimiento,df_negocio)
-##Layout_ADM=Layout_ADM[['EVENT_ID_NO', 'PALABRA_LIMPIA', 'PALABRA_ORIGINAL','POSICION','ADM']]
+Layout_ADM = enc.encuentra_admiracion(Layout_Sentimiento)
+Layout_ADM=Layout_ADM[['EVENT_ID_NO', 'PALABRA_LIMPIA', 'PALABRA_ORIGINAL','POSICION','ADM']]
 #Layout_Sentimiento=Layout_Sentimiento[['EVENT_ID_NO', 'PALABRA_LIMPIA', 'PALABRA_ORIGINAL', 'POSICION','valor']]
 #Layout_Sentimiento=Layout_Sentimiento.fillna(0)
 #Layout_Sentimiento.rename(columns={'valor':'SENTIMIENTO_PALABRA'}, inplace=True)

@@ -6,8 +6,8 @@ Created on Mon Nov 14 18:01:18 2016
 """
 
 def encuentra_modificadores(entrada,negadores,sentimiento, n_breaks, intensificadores):
-    print(entrada[1])
-    ax = sentimiento[sentimiento['palabra'] = entrada[1]]
+#    print(entrada[1])
+#    ax = sentimiento[sentimiento['palabra'] = entrada[1]]
      
     salida=ax
     return salida
