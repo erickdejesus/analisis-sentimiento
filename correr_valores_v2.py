@@ -134,13 +134,13 @@ def calcula_resultado_valor(x2):
 
 def main_correr_valores(Dframe):
     Dframe_aux=Dframe
-    Dframe_aux=Dframe_aux-fillna(0)
+    Dframe_aux=Dframe_aux.fillna(0)
     Dframe_aux=correr_valor_intensificador(Dframe_aux)
     Dframe_aux=correr_valor_Negador(Dframe_aux)
     x2=calcula_resultado_valor(Dframe_aux)
     return(x2)
     
-def correr_valor_multiplicador(Dframe_aux):
+def correr_valor_intensificador(Dframe_aux):
     x1=Dframe_aux;x1=x1.fillna(0)
     x1=enc.cambiar_formato_numero(x1)
     list_romp=x1['POSICION'][x1['ROMPEDOR_F']>0]
@@ -158,8 +158,7 @@ def correr_valor_multiplicador(Dframe_aux):
             if CntMys > 0:
                 pos_init=int(i)
                 pos_fin=int(siguiente_mayor_n_B(i,list_romp2))
-                pos_fin=pos_fin+1
-                x1.iloc[int(pos_init):int(pos_fin),5]=float(x1['INTENSIFICADOR'][x1['POSICION'] == pos_init])
+                x1.iloc[int(pos_init):int(pos_fin)+1,5]=float(x1['INTENSIFICADOR'][x1['POSICION'] == pos_init])
             else:
                 pos_init=int(i)
                 x1.ix[x1.POSICION >= pos_init,'INTENSIFICADOR'] = float(x1['INTENSIFICADOR'][x1['POSICION'] == pos_init])
@@ -171,70 +170,38 @@ def correr_valor_multiplicador(Dframe_aux):
             pass
     else: 
         pass
-    return(Dframe_aux)
+    return(x1)
  
     
 #==============================================================================
 #             modficar para correr negador
 #==============================================================================
 
-def correr_valor_multiplicador(x1):
+def correr_valor_Negador(Dframe_aux):
+    x1=Dframe_aux;x1=x1.fillna(0)
     x1=enc.cambiar_formato_numero(x1)
-    pos_finT=x1['POSICION'].max()
     list_romp=x1['POSICION'][x1['ROMPEDOR_F']>0]
     list_romp=list(list_romp)
-    list_intns=x1['POSICION'][x1['INTENSIFICADOR']!=0]
-    list_intns=list(list_intns)
     list_neg=x1['POSICION'][x1['Negadores']!=0]
     list_neg=list(list_neg)
-    
-#     CORRER INTENSIFICADORES
-    list_romp2=rompedores(list_intns,list_romp)
-    list_romp2=list(list_romp2)
-    if len(list_intns) > 0 and len(list_romp2) > 0:
-        for i in list_intns:
-            CntMys=hay_mayor_q_A_en_B(i,list_romp2)
-            if CntMys > 0:
-                pos_init=int(i)
-                pos_fin=int(siguiente_mayor_n_B(i,list_romp2))
-                x1.iloc[int(pos_init):int(pos_fin+1),5]=float(x1['INTENSIFICADOR'][x1['POSICION'] == pos_init])
-            else:
-                pos_init=int(i)
-                x1.ix[x1.POSICION >= pos_init,'INTENSIFICADOR'] = float(x1['INTENSIFICADOR'][x1['POSICION'] == pos_init])
-    elif len(list_intns) > 0 and len(list_romp2) == 0:
-        if len(list_intns) == 1:
-            pos_init=int(list_intns[0])
-            x1.ix[x1.POSICION >= pos_init,'INTENSIFICADOR'] = float(x1['INTENSIFICADOR'][x1['POSICION'] == pos_init])
-        else:
-            for i in list_intns:
-                pos_init=int(i)
-                x1.ix[x1.POSICION >= pos_init,'INTENSIFICADOR'] = float(x1['INTENSIFICADOR'][x1['POSICION'] == pos_init])
-    else: 
-        pass
-
     
 #     CORRER Negadores
     if len(list_neg) > 0 and len(list_romp) > 0:
         for i in list_neg:
+            pos_init=0
+            pos_fin=0
             CntMys=hay_mayor_q_A_en_B(i,list_romp)
             if CntMys > 0:
                 pos_init=int(i)
-                pos_fin=siguiente_mayor_n_B(i,list_romp)
-                x1.iloc[int(pos_init):int(pos_fin)+1,6]=float(x1['Negadores'][x1['POSICION'] == pos_init])
+                pos_fin=int(siguiente_mayor_n_B(i,list_romp))
+                x1.iloc[int(pos_init):int(pos_fin)+1,6]=-1
             else:
                 pos_init=int(i)
-                x1.ix[x1.POSICION >= pos_init,'Negadores'] = float(x1['Negadores'][x1['POSICION'] == pos_init])
+                x1.ix[x1.POSICION >= pos_init,'Negadores'] =-1
     elif len(list_neg) > 0 and len(list_romp) == 0:
-        if len(list_neg) == 1:
-            pos_init=int(list_neg[0])
-            x1.ix[x1.POSICION >= pos_init,'Negadores'] = float(x1['Negadores'][x1['POSICION'] == pos_init])
-        else:
-            for i in list_neg:
-                pos_init=int(i)
-                x1.ix[x1.POSICION >= pos_init,'Negadores'] = float(x1['Negadores'][x1['POSICION'] == pos_init])
+        pos_init=int(list_neg[0])
+        x1.ix[x1.POSICION >= pos_init,'Negadores'] =-1
     else: 
         pass
-#    Construccion columna resultado
-    x2=calcula_resultado_valor(x1)
-    return(x2)
+    return(x1)
     

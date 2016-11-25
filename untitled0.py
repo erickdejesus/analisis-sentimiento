@@ -9,10 +9,11 @@ import func_import_catalogos as catalogs
 import importar_excel as impex
 import funciones_varias as enc
 import consultas as consulta
-import correr_valores as correr
+import correr_valores_v2 as correr
 import os
 
 os.environ['NLS_LANG'] ='.UTF8'
+os.remove('TStage2.csv');os.remove('Salida_Ananlisis_sentimiento.xlsx')
 
 df_sentimiento,df_intensificadores,df_negadores,S_negation_breaks=catalogs.Import_Catalogs()
 df_negocio,df_layout1=impex.importar_excel_negocio()
@@ -47,7 +48,8 @@ with open('TStage2.csv','a') as appn:
     band=0
     for m in new_index:
         m5=Merg4[Merg4['EVENT_ID_NO']==m]
-        x2=correr.correr_valor_multiplicador(m5)
+        m5=m5.fillna(0)
+        x2=correr.main_correr_valores(m5)
         if band==0:
             try:
                 x2.to_csv(appn,index=False,enconding='latin_1')
