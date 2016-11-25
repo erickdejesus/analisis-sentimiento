@@ -96,17 +96,29 @@ def calcula_resultado_valor(x2):
         elif result_chain == '1001':
             result=float(x2['SENTIMIENTO_PALABRA'][x2['POSICION']==i2])*float(x2['ADM'][x2['POSICION']==i2])
         elif result_chain == '1010':
-            result=float(x2['SENTIMIENTO_PALABRA'][x2['POSICION']==i2])*float(x2['Negadores'][x2['POSICION']==i2])
+            if float(x2['SENTIMIENTO_PALABRA'][x2['POSICION']==i2]) < 0:
+                result=float(x2['SENTIMIENTO_PALABRA'][x2['POSICION']==i2])*float(x2['Negadores'][x2['POSICION']==i2])*(-1)
+            else:
+                result=float(x2['SENTIMIENTO_PALABRA'][x2['POSICION']==i2])*float(x2['Negadores'][x2['POSICION']==i2])
         elif result_chain == '1011':
-            result=float(x2['SENTIMIENTO_PALABRA'][x2['POSICION']==i2])*float(x2['Negadores'][x2['POSICION']==i2])*float(x2['ADM'][x2['POSICION']==i2])
+            if float(x2['SENTIMIENTO_PALABRA'][x2['POSICION']==i2]) < 0:
+                result=float(x2['SENTIMIENTO_PALABRA'][x2['POSICION']==i2])*float(x2['Negadores'][x2['POSICION']==i2])*float(x2['ADM'][x2['POSICION']==i2])*(-1)
+            else:
+                result=float(x2['SENTIMIENTO_PALABRA'][x2['POSICION']==i2])*float(x2['Negadores'][x2['POSICION']==i2])*float(x2['ADM'][x2['POSICION']==i2])
         elif result_chain == '1100':
             result=float(x2['SENTIMIENTO_PALABRA'][x2['POSICION']==i2])*float(x2['INTENSIFICADOR'][x2['POSICION']==i2])
         elif result_chain == '1101':
             result=float(x2['SENTIMIENTO_PALABRA'][x2['POSICION']==i2])*float(x2['INTENSIFICADOR'][x2['POSICION']==i2])*float(x2['ADM'][x2['POSICION']==i2])
         elif result_chain == '1110':
-            result=float(x2['SENTIMIENTO_PALABRA'][x2['POSICION']==i2])*float(x2['INTENSIFICADOR'][x2['POSICION']==i2])*float(x2['Negadores'][x2['POSICION']==i2])
+            if float(x2['SENTIMIENTO_PALABRA'][x2['POSICION']==i2]) < 0:
+                result=float(x2['SENTIMIENTO_PALABRA'][x2['POSICION']==i2])*float(x2['INTENSIFICADOR'][x2['POSICION']==i2])*float(x2['Negadores'][x2['POSICION']==i2])*(-1)
+            else:
+                result=float(x2['SENTIMIENTO_PALABRA'][x2['POSICION']==i2])*float(x2['INTENSIFICADOR'][x2['POSICION']==i2])*float(x2['Negadores'][x2['POSICION']==i2])
         elif result_chain == '1111':
-            result=float(x2['SENTIMIENTO_PALABRA'][x2['POSICION']==i2])*float(x2['INTENSIFICADOR'][x2['POSICION']==i2])*float(x2['Negadores'][x2['POSICION']==i2])*float(x2['ADM'][x2['POSICION']==i2])
+            if float(x2['SENTIMIENTO_PALABRA'][x2['POSICION']==i2]) < 0:
+                result=float(x2['SENTIMIENTO_PALABRA'][x2['POSICION']==i2])*float(x2['INTENSIFICADOR'][x2['POSICION']==i2])*float(x2['Negadores'][x2['POSICION']==i2])*float(x2['ADM'][x2['POSICION']==i2])*(-1)
+            else:
+                result=float(x2['SENTIMIENTO_PALABRA'][x2['POSICION']==i2])*float(x2['INTENSIFICADOR'][x2['POSICION']==i2])*float(x2['Negadores'][x2['POSICION']==i2])*float(x2['ADM'][x2['POSICION']==i2])
         else:
             result=0
 #        print(result)
@@ -121,7 +133,7 @@ def calcula_resultado_valor(x2):
 
 def correr_valor_multiplicador(x1):
     x1=enc.cambiar_formato_numero(x1)
-    pos_finT=x1['POSICION'].max()
+#    pos_finT=x1['POSICION'].max()
     list_romp=x1['POSICION'][x1['ROMPEDOR_F']>0]
     list_romp=list(list_romp)
     list_intns=x1['POSICION'][x1['INTENSIFICADOR']!=0]
@@ -139,8 +151,8 @@ def correr_valor_multiplicador(x1):
             CntMys=hay_mayor_q_A_en_B(i,list_romp2)
             if CntMys > 0:
                 pos_init=int(i)
-                pos_fin=siguiente_mayor_n_B(i,list_romp2)
-                x1.iloc[int(pos_init):int(pos_fin),5]=float(x1['INTENSIFICADOR'][x1['POSICION'] == pos_init])
+                pos_fin=int(siguiente_mayor_n_B(i,list_romp2))
+                x1.iloc[int(pos_init):int(pos_fin+1),5]=float(x1['INTENSIFICADOR'][x1['POSICION'] == pos_init])
             else:
                 pos_init=int(i)
                 x1.ix[x1.POSICION >= pos_init,'INTENSIFICADOR'] = float(x1['INTENSIFICADOR'][x1['POSICION'] == pos_init])
@@ -155,30 +167,30 @@ def correr_valor_multiplicador(x1):
     else: 
         pass
 
-#     CORRER SIGNOS DE ADMIRACION!
-    if len(list_ADM) > 0 and len(list_romp) > 0:
-        for i in list_ADM:
-            CntMns=hay_menor_q_A_en_B(i,list_romp)
-            if CntMns > 0:
-                pos_init=siguiente_menor_n_B(i,list_romp)
-                pos_fin=int(i)
-                x1.iloc[int(pos_init):int(pos_fin),7]=float(x1['ADM'][x1['POSICION'] == pos_fin])
-            else:
-                pos_init=0
-                pos_fin=int(i)
-                x1.iloc[int(pos_init):int(pos_fin),7]=float(x1['ADM'][x1['POSICION'] == pos_fin])
-    elif len(list_ADM) > 0 and len(list_romp) == 0:
-        if len(list_intns) == 1:
-            pos_init=0
-            pos_fin=int(list_ADM[0])
-            x1.iloc[int(pos_init):int(pos_fin),7]=float(x1['ADM'][x1['POSICION'] == pos_fin])
-        else:
-#                hay que trabajar en este caso
-             pos_init=0
-             pos_fin=pos_finT
-             x1.iloc[int(pos_init):int(pos_fin),7]=float(x1['ADM'][x1['POSICION'] == pos_fin])
-    else:
-        pass
+##     CORRER SIGNOS DE ADMIRACION!
+#    if len(list_ADM) > 0 and len(list_romp) > 0:
+#        for i in list_ADM:
+#            CntMns=hay_menor_q_A_en_B(i,list_romp)
+#            if CntMns > 0:
+#                pos_init=siguiente_menor_n_B(i,list_romp)
+#                pos_fin=int(i)
+#                x1.iloc[int(pos_init):int(pos_fin),7]=float(x1['ADM'][x1['POSICION'] == pos_fin])
+#            else:
+#                pos_init=0
+#                pos_fin=int(i)
+#                x1.iloc[int(pos_init):int(pos_fin),7]=float(x1['ADM'][x1['POSICION'] == pos_fin])
+#    elif len(list_ADM) > 0 and len(list_romp) == 0:
+#        if len(list_intns) == 1:
+#            pos_init=0
+#            pos_fin=int(list_ADM[0])
+#            x1.iloc[int(pos_init):int(pos_fin),7]=float(x1['ADM'][x1['POSICION'] == pos_fin])
+#        else:
+##                hay que trabajar en este caso
+#             pos_init=0
+#             pos_fin=pos_finT
+#             x1.iloc[int(pos_init):int(pos_fin),7]=float(x1['ADM'][x1['POSICION'] == pos_fin])
+#    else:
+#        pass
     
 #     CORRER Negadores
     if len(list_neg) > 0 and len(list_romp) > 0:

@@ -17,6 +17,13 @@ def f(row):
         
 def encuentra_admiracion(tabla):          
     tabla["ADM"] = tabla.apply(f, axis=1)
+    aux = tabla[tabla['ADM'] ==2]
+    index=aux.index
+    for i in index:
+       aux1 = tabla[(tabla['EVENT_ID_NO']==aux['EVENT_ID_NO'][i])&(tabla['POSICION']<aux['POSICION'][i])]
+       index1=aux1.index
+       for j in index1:
+         tabla.loc[(tabla['EVENT_ID_NO']==aux1['EVENT_ID_NO'][j])&(tabla['POSICION']==aux1['POSICION'][j]) , 'ADM'] = 2
     return (tabla)
 
 #==============================================================================
