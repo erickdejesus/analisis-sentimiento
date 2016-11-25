@@ -18,7 +18,7 @@ df_sentimiento,df_intensificadores,df_negadores,S_negation_breaks=catalogs.Impor
 df_negocio,df_layout1=impex.importar_excel_negocio()
 
 Layout_Sentimiento=pd.merge(df_layout1,df_sentimiento,left_on='PALABRA_LIMPIA',right_on='palabra',how='left')
-Layout_ADM = enc.encuentra_admiracion(Layout_Sentimiento,df_negocio)
+Layout_ADM = enc.encuentra_admiracion(Layout_Sentimiento)
 Layout_ADM=Layout_ADM[['EVENT_ID_NO', 'PALABRA_LIMPIA', 'PALABRA_ORIGINAL','POSICION','ADM']]
 Layout_Sentimiento=Layout_Sentimiento[['EVENT_ID_NO', 'PALABRA_LIMPIA', 'PALABRA_ORIGINAL', 'POSICION','valor']]
 Layout_Sentimiento=Layout_Sentimiento.fillna(0)
