@@ -13,8 +13,11 @@ import correr_valores_v2 as correr
 import os
 
 os.environ['NLS_LANG'] ='.UTF8'
-os.remove('TStage2.csv');os.remove('Salida_Ananlisis_sentimiento.xlsx')
-
+try:
+    os.remove('TStage2.csv');os.remove('Salida_Ananlisis_sentimiento.xlsx')
+except Exception as msg:
+    print(msg)
+    
 df_sentimiento,df_intensificadores,df_negadores,S_negation_breaks=catalogs.Import_Catalogs()
 df_negocio,df_layout1=impex.importar_excel_negocio()
 
