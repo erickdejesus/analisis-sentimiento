@@ -37,8 +37,11 @@ def dict_tabdelim_NnameColum(nfile):
     for i in f:
         if Contarexlucion(i) == 0:
             interm=i.split('\t')
-            palabra+=[interm[0].strip().replace('\n','').replace('\r','').upper()]
-            valor+=[interm[1].replace('\n','').replace('\r','')]
+            try:
+                palabra+=[interm[0].strip().replace('\n','').replace('\r','').upper()]
+                valor+=[interm[1].replace('\n','').replace('\r','')]
+            except Exception as msg:
+                print(msg)
                     
     dict_salida={
                  'palabra':pd.Series(palabra),

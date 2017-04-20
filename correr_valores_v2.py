@@ -73,22 +73,25 @@ def calcula_resultado_valor(x2):
         ban2=''
         ban3=''
         result=0
-        if float(x2['SENTIMIENTO_PALABRA'][x2['POSICION']==i2]) != 0:
-            ban0='1'
-        else:
-            ban0='0'
-        if float(x2['INTENSIFICADOR'][x2['POSICION']==i2]) != 0:
-            ban1='1'
-        else:
-            ban1='0'
-        if float(x2['Negadores'][x2['POSICION']==i2]) != 0:
-            ban2='1'
-        else:
-            ban2='0'
-        if float(x2['ADM'][x2['POSICION']==i2]) != 0:
-            ban3='1'
-        else:
-            ban3='0'
+        try:
+            if float(x2['SENTIMIENTO_PALABRA'][x2['POSICION']==i2]) != 0:
+                ban0='1'
+            else:
+                ban0='0'
+            if float(x2['INTENSIFICADOR'][x2['POSICION']==i2]) != 0:
+                ban1='1'
+            else:
+                ban1='0'
+            if float(x2['Negadores'][x2['POSICION']==i2]) != 0:
+                ban2='1'
+            else:
+                ban2='0'
+            if float(x2['ADM'][x2['POSICION']==i2]) != 0:
+                ban3='1'
+            else:
+                ban3='0'
+        except Exception as msg:
+            print(msg)
         result_chain=ban0+ban1+ban2+ban3
 #        print(result_chain)
         if result_chain == '1000':
@@ -160,8 +163,11 @@ def correr_valor_intensificador(Dframe_aux):
                 pos_fin=int(siguiente_mayor_n_B(i,list_romp2))
                 x1.iloc[int(pos_init):int(pos_fin)+1,5]=float(x1['INTENSIFICADOR'][x1['POSICION'] == pos_init])
             else:
-                pos_init=int(i)
-                x1.ix[x1.POSICION >= pos_init,'INTENSIFICADOR'] = float(x1['INTENSIFICADOR'][x1['POSICION'] == pos_init])
+                try:
+                    pos_init=int(i)
+                    x1.ix[x1.POSICION >= pos_init,'INTENSIFICADOR'] = float(x1['INTENSIFICADOR'][x1['POSICION'] == pos_init])
+                except Exception as msg:
+                    print(msg)
     elif len(list_intns) > 0 and len(list_romp2) == 0:
         if len(list_intns) == 1:
             pos_init=int(list_intns[0])
